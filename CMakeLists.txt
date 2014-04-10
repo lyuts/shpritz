@@ -4,6 +4,7 @@ project (shpritz)
 
 #set(CMAKE_CXX_COMPILER clang++)
 #set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
 #find_package(Boost COMPONENTS iostreams REQUIRED)
 #find_package(ZLIB REQUIRED)
@@ -11,7 +12,7 @@ project (shpritz)
 #find_package(BerkeleyDB REQUIRED)
 
 if(DEBUG)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0")
 endif(DEBUG)
 
 include_directories(
