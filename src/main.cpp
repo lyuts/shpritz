@@ -2,6 +2,8 @@
 #include <iostream>
 #include <magic.h>
 #include <reader/FileReader.h>
+#include <sigc++/connection.h>
+#include <SpeedReader.h>
 #include <string>
 #include <ui/ReadingWindow.h>
 #include <unistd.h>
@@ -46,6 +48,8 @@ std::string determineFileType(const std::string& iPath)
 int main(int argc, const char *argv[])
 {
     using reader::FileReader;
+    using ui::ReadingWindow;
+
     if (argc < 2)
     {
         std::cout << "Usage: shpritz <file>" << std::endl;
@@ -69,7 +73,13 @@ int main(int argc, const char *argv[])
         return -1;
     }
 
-    ui::ReadingWindow win;
-    
+    ReadingWindow win;
+    SpeedReader sr(250, .45);
+
+    sr.signalWordReady.connect(sigc::mem_fun(win, &ReadingWindow::showWord));
+    sr.signalWordAwaiting.connect(sigc::mem_fun(*reader.get(), &FileReader::getWord));
+
+    sr.start();
+
     return 0;
 }
