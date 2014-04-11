@@ -78,6 +78,14 @@ int main(int argc, const char *argv[])
 
     sr.signalWordReady.connect(sigc::mem_fun(win, &ReadingWindow::showWord));
     sr.signalWordAwaiting.connect(sigc::mem_fun(*reader.get(), &FileReader::getWord));
+    sr.signalSpeedChanged.connect(sigc::mem_fun(win, &ReadingWindow::showCurrentSpeed));
+
+    win.signalPauseToggled.connect(sigc::mem_fun(sr, &SpeedReader::togglePause));
+    win.signalSpeedDecreaseRequested.connect(sigc::mem_fun(sr, &SpeedReader::decreaseSpeed));
+    win.signalSpeedIncreaseRequested.connect(sigc::mem_fun(sr, &SpeedReader::increaseSpeed));
+    win.signalJumpPrevSentence.connect(sigc::mem_fun(sr, &SpeedReader::jumpPrevSentence));
+    win.signalJumpNextSentence.connect(sigc::mem_fun(sr, &SpeedReader::jumpNextSentence));
+    win.signalExitRequested.connect(sigc::mem_fun(sr, &SpeedReader::terminate));
 
     sr.start();
 

@@ -19,9 +19,13 @@ ReadingWindow::~ReadingWindow()
 void
 ReadingWindow::showWord(std::string iWord, unsigned int iORP)
 {
-    std::cout << "asdfasdf" << std::endl;
     printw(iWord.c_str());
     getch();
 }
 
+void
+ReadingWindow::showCurrentSpeed(unsigned int iWpm)
+{
+
+}
 }

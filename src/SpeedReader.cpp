@@ -21,3 +21,39 @@ SpeedReader::start()
     signalWordReady.emit(w, calcORP(w.size()));
 }
 
+void
+SpeedReader::togglePause()
+{
+
+}
+
+void
+SpeedReader::decreaseSpeed()
+{
+    mWpm -= 50;
+}
+
+
+void
+SpeedReader::increaseSpeed()
+{
+    mWpm += 50;
+}
+
+void
+SpeedReader::jumpPrevSentence()
+{
+
+}
+
+void
+SpeedReader::jumpNextSentence()
+{
+
+}
+
+void
+SpeedReader::terminate()
+{
+    exit(0);
+}

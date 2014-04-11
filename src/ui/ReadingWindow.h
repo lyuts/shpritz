@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sigc++/signal.h>
 #include <sigc++/trackable.h>
 #include <string>
 
@@ -13,6 +14,14 @@ class ReadingWindow : public sigc::trackable
         ~ReadingWindow();
 
         void showWord(std::string, unsigned int);
+        void showCurrentSpeed(unsigned int);
+
+        sigc::signal<void> signalPauseToggled;
+        sigc::signal<void> signalSpeedDecreaseRequested;
+        sigc::signal<void> signalSpeedIncreaseRequested;
+        sigc::signal<void> signalJumpPrevSentence;
+        sigc::signal<void> signalJumpNextSentence;
+        sigc::signal<void> signalExitRequested;
 };
 
 }
