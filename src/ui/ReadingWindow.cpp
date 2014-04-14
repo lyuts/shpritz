@@ -103,15 +103,26 @@ ReadingWindow::show()
     {
         refreshWindows();
         if ('z' == ch)
+        {
+
             signalSpeedDecreaseRequested.emit();
+        }
         else if ('a' == ch)
+        {
             signalSpeedIncreaseRequested.emit();
+        }
         else if ('x' == ch)
+        {
             signalPauseToggled.emit();
+        }
         else if ('k' == ch)
+        {
             signalJumpPrevSentence.emit();
+        }
         else if ('j' == ch)
+        {
             signalJumpNextSentence.emit();
+        }
     }
 
     signalExitRequested.emit();

@@ -84,14 +84,10 @@ SpeedReader::increaseSpeed()
 void
 SpeedReader::setSpeed(unsigned int iWpm)
 {
-    std::cout << "asdfasdfasdf" << std::endl;
     if (iWpm > 0)
+    {
         mWpm = iWpm;
-
-//    mTimer.expires_from_now(std::chrono::milliseconds(60.0 / mWpm * 10));
-//    mTimer.expires_from_now(std::chrono::seconds(2));
-//    mTimer.expires_from_now(boost::posix_time::seconds(2));
-//    mTimer.async_wait(std::bind(&SpeedReader::sendWord, this));
+    }
 }
 
 void

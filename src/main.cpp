@@ -78,9 +78,10 @@ int main(int argc, const char *argv[])
     win.signalJumpNextSentence.connect(sigc::mem_fun(sr, &SpeedReader::jumpNextSentence));
     win.signalExitRequested.connect(sigc::mem_fun(sr, &SpeedReader::terminate));
 
+    std::thread thr(std::bind(&SpeedReader::start, &sr));
+
     win.show();
 
-    std::thread thr(std::bind(&SpeedReader::start, &sr));
     thr.join();
 
     return 0;
