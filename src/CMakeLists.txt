@@ -26,6 +26,7 @@ include_directories(
     ${CURSES_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${SIGCXX_INCLUDE_DIRS}
+    ${PROJECT_BINARY_DIR}
     )
 
 link_directories(${SIGCXX_LIBRARY_DIRS})

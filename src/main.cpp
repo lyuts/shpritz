@@ -8,6 +8,7 @@
 #include <ui/ReadingWindow.h>
 #include <unistd.h>
 #include <vector>
+#include <config.h>
 
 std::string determineFileType(const std::string& iPath)
 {
@@ -54,6 +55,10 @@ int main(int argc, const char *argv[])
         std::cerr << "Failed to detect mime type" << std::endl;
         return -1;
     }
+
+#ifdef DEBUG
+    std::cout << "Mime: " << mime << std::endl;
+#endif
 
     std::unique_ptr<FileReader> reader(FileReader::create(mime));
 
