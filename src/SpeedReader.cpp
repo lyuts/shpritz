@@ -1,11 +1,22 @@
 #include <iostream>
 #include <SpeedReader.h>
+#include <thread>
 
 SpeedReader::SpeedReader(unsigned int iWpm, double iORPfactor)
-    : mWpm(iWpm),
-      mORPFactor(iORPfactor)
+    : mCurrentWord(),
+      mText(),
+      mWpm(iWpm),
+      mORPFactor(iORPfactor),
+      mPause(true)
 {
 
+}
+
+void
+SpeedReader::setText(Text iText)
+{
+    mText = iText;
+    mCurrentWord = mText.begin();
 }
 
 int
@@ -17,27 +28,70 @@ SpeedReader::calcORP(size_t n)
 void
 SpeedReader::start()
 {
-    std::string w = signalWordAwaiting.emit();
-    signalWordReady.emit(w, calcORP(w.size()));
+    while (true)
+    {
+        if (mPause) continue;
+        if (mCurrentWord != mText.end())
+        {
+            signalWordReady.emit(*mCurrentWord, calcORP(mCurrentWord->size()));
+            mCurrentWord++;
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(60000/mWpm));
+
+//        mTimer.expires_from_now();
+//        mTimer.async_wait(std::bind(&SpeedReader::sendWord, this));
+    }
+}
+
+void
+SpeedReader::sendWord()
+{
+        std::cout << "sending word" << std::endl;
+    signalWordReady.emit("qwerty", 0);
+//    std::string w = signalWordAwaiting.emit();
+//    if (mCurrentWord != mText.end())
+//    {
+//        signalWordReady.emit(*mCurrentWord, calcORP(mCurrentWord->size()));
+//        mCurrentWord++;
+//    }
+//    else
+//    {
+//        std::cout << "cancelling timer" << std::endl;
+//        mTimer.cancel();    
+//    }
 }
 
 void
 SpeedReader::togglePause()
 {
-
+    mPause = !mPause;
 }
 
 void
 SpeedReader::decreaseSpeed()
 {
-    mWpm -= 50;
+    setSpeed(mWpm - 50);
 }
 
 
 void
 SpeedReader::increaseSpeed()
 {
-    mWpm += 50;
+    setSpeed(mWpm + 50);
+}
+
+void
+SpeedReader::setSpeed(unsigned int iWpm)
+{
+    std::cout << "asdfasdfasdf" << std::endl;
+    if (iWpm > 0)
+        mWpm = iWpm;
+
+//    mTimer.expires_from_now(std::chrono::milliseconds(60.0 / mWpm * 10));
+//    mTimer.expires_from_now(std::chrono::seconds(2));
+//    mTimer.expires_from_now(boost::posix_time::seconds(2));
+//    mTimer.async_wait(std::bind(&SpeedReader::sendWord, this));
 }
 
 void

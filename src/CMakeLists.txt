@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 
-#include(FindPackageHandleStandardArgs)
-
 include(FindPkgConfig)
+
 find_package(Curses REQUIRED)
+find_package(Threads REQUIRED)
+
+if(CMAKE_USE_PTHREADS_INIT)
+    set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -pthread")
+endif(CMAKE_USE_PTHREADS_INIT)
 
 find_library(MAGIC_LIBRARY NAMES magic PATHS /usr/local/lib /usr/lib)
 
@@ -33,6 +37,7 @@ add_executable(shpritz ${SRC} ${READER_SRC} ${UI_SRC})
 
 target_link_libraries(shpritz
     ${CURSES_LIBRARIES}
+    ${THREADS_LIBRARIES}
     ${MAGIC_LIBRARY}
     ${SIGCXX_LIBRARIES}
     )

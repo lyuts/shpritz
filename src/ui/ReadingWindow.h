@@ -1,13 +1,13 @@
 #pragma once
 
+#include <ncurses.h>
 #include <sigc++/signal.h>
-#include <sigc++/trackable.h>
 #include <string>
 
 namespace ui
 {
 
-class ReadingWindow : public sigc::trackable
+class ReadingWindow
 {
     public:
         ReadingWindow();
@@ -15,6 +15,7 @@ class ReadingWindow : public sigc::trackable
 
         void showWord(std::string, unsigned int);
         void showCurrentSpeed(unsigned int);
+        void show();
 
         sigc::signal<void> signalPauseToggled;
         sigc::signal<void> signalSpeedDecreaseRequested;
@@ -22,6 +23,15 @@ class ReadingWindow : public sigc::trackable
         sigc::signal<void> signalJumpPrevSentence;
         sigc::signal<void> signalJumpNextSentence;
         sigc::signal<void> signalExitRequested;
+
+    private:
+        void createSpritzWindow();
+        void createMainWindow();
+        void refreshWindows();
+
+    private:
+        std::unique_ptr<WINDOW, decltype(&delwin)> mSpritzWindow;
+        std::unique_ptr<WINDOW, decltype(&delwin)> mMainWindow;
 };
 
 }

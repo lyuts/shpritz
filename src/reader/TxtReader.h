@@ -7,9 +7,9 @@ namespace reader
 class TxtReader : public FileReader
 {
     public:
-        TxtReader(const std::string& iPath);
+        TxtReader();
 
-        std::string getWord() const override;
+        Text parse(const std::string& iPath) const override;
 };
 }
 

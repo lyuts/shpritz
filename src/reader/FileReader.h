@@ -1,24 +1,19 @@
 #pragma once
 
-#include <sigc++/trackable.h>
 #include <string>
+#include <vector>
+
+typedef std::vector<std::string> Text;
 
 namespace reader
 {
 
-class FileReader : public sigc::trackable
+class FileReader
 {
     public:
-        static FileReader* create(const std::string& iMime, const std::string& iPath);
-        virtual ~FileReader();
+        static FileReader* create(const std::string& iMime);
 
-        virtual std::string getWord() const = 0;
-
-    protected:
-        FileReader(const std::string& iPath);
-
-    private:
-        std::string mPath;
+        virtual Text parse(const std::string& iPath) const = 0;
 };
 
 }

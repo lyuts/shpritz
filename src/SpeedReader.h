@@ -1,13 +1,17 @@
 #pragma once
 
+#include <reader/FileReader.h>
 #include <sigc++/signal.h>
-#include <sigc++/trackable.h>
 #include <sys/types.h>
 
-class SpeedReader : public sigc::trackable
+class SpeedReader
 {
     public:
         SpeedReader(unsigned int iWpm, double iORPFactor);
+
+        void setText(Text iText);
+        void sendWord();
+        void setSpeed(unsigned int);
 
         void start();
         void togglePause();
@@ -25,6 +29,9 @@ class SpeedReader : public sigc::trackable
         int calcORP(size_t n);
 
     private:
+        Text::const_iterator mCurrentWord;
+        Text mText;
         unsigned int mWpm;
         double mORPFactor;
+        bool mPause;
 };

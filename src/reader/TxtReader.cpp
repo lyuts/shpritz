@@ -1,16 +1,30 @@
 #include <reader/TxtReader.h>
+#include <fstream>
 
 namespace reader
 {
 
-TxtReader::TxtReader(const std::string& iPath)
-    : FileReader(iPath)
+TxtReader::TxtReader()
+    : FileReader()
 {
 }
 
-std::string
-TxtReader::getWord() const
+Text
+TxtReader::parse(const std::string& iPath) const
 {
-    return "temp";
+    std::ifstream f(iPath, std::fstream::in);
+
+    std::vector<std::string> words;
+
+    while (f.good())
+    {
+        std::string word;
+        f >> word;
+        words.emplace_back(word);
+    }
+
+    f.close();
+
+    return words;
 }
 }

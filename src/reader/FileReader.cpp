@@ -3,24 +3,14 @@
 
 namespace reader
 {
-FileReader::FileReader(const std::string& iPath)
-    : mPath(iPath)
-{
-}
-
-FileReader::~FileReader()
-{
-}
-
-
 FileReader*
-FileReader::create(const std::string& iMime, const std::string& iPath)
+FileReader::create(const std::string& iMime)
 {
     FileReader* reader = nullptr;
 
     if (0 == iMime.find("text/"))
     {
-        reader = new TxtReader(iPath);
+        reader = new TxtReader();
     }
     return reader;
 }
