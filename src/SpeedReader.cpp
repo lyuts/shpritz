@@ -20,9 +20,32 @@ SpeedReader::setText(Text iText)
 }
 
 int
-SpeedReader::calcORP(size_t n)
+SpeedReader::calcORP(const std::string& iWord)
 {
-    return n * 0.45 + 0.5;
+    size_t length = iWord.size();
+    char lastChar = iWord[length - 1];
+
+    if (lastChar == '\n')
+    {
+        lastChar = iWord[length - 2];
+        length--;
+    }
+
+    if (std::string::npos != std::string(",.?!:;\"").find(lastChar))
+    {
+        length--;
+    }
+
+    int orp = length <= 1 ? 0 :
+                    (length == 2 ? 1 :
+                     (length == 3 ? 1 :
+                      (length / 2) - 1));
+
+    return orp + 1;
+
+//    int orp = n * 0.45 + 0.5;
+
+//    return orp > 0 ? orp : 1;
 }
 
 void
@@ -31,9 +54,14 @@ SpeedReader::start()
     while (true)
     {
         if (mPause) continue;
-        if (mCurrentWord != mText.end())
+        if (mCurrentWord != mText.end() && !mCurrentWord->empty())
         {
-            signalWordReady.emit(*mCurrentWord, calcORP(mCurrentWord->size()));
+            signalWordReady.emit(*mCurrentWord, calcORP(*mCurrentWord));
+            if (mCurrentWord->at(mCurrentWord->size() - 1) == '.')
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(60000/mWpm));
+            }
+
             mCurrentWord++;
         }
 

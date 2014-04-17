@@ -55,6 +55,7 @@ ReadingWindow::createMainWindow()
     getmaxyx(mSpritzWindow.get(), y, x);
     mMainWindow.reset(newwin(LINES - y, COLS, y, 0));
     box(mMainWindow.get(), 0, 0);
+    scrollok(mMainWindow.get(), TRUE);
     wmove(mMainWindow.get(), 1, 1);
 }
 
@@ -82,7 +83,9 @@ ReadingWindow::showWord(std::string iWord, unsigned int iORP)
     box(mSpritzWindow.get(), 0, 0); // replace with drawing left/right border only
 
     waddstr(mMainWindow.get(), iWord.c_str());
+//    wprintw(mMainWindow.get(), "(%d)", iORP);
     waddstr(mMainWindow.get(), " ");
+
 
 
     refreshWindows();

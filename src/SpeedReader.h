@@ -26,7 +26,7 @@ class SpeedReader
         sigc::signal<void, unsigned int> signalSpeedChanged;
 
     private:
-        int calcORP(size_t n);
+        int calcORP(const std::string& iWord);
 
     private:
         Text::const_iterator mCurrentWord;
